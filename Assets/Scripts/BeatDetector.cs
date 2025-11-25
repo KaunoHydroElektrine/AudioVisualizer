@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 
+[RequireComponent(typeof(Slider))]
 [RequireComponent(typeof(AudioSource))]
 
 public class BeatDetector : MonoBehaviour
@@ -28,6 +30,7 @@ public class BeatDetector : MonoBehaviour
     public UnityEvent OnBeat;
 
     AudioSource source;
+    public Slider slider;
     private float[] samples;
     private float[] history;
     int historyPos;
@@ -53,7 +56,10 @@ public class BeatDetector : MonoBehaviour
     }
     private void Update()
     {
+
         if (!source.isPlaying) return;
+
+        source.pitch = slider.value;
 
         source.GetSpectrumData(samples, 0, FFTWindow.BlackmanHarris);
 
